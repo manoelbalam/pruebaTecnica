@@ -32,16 +32,16 @@ Sign Up endpoint `http://127.0.0.1:8000/api/Seguridad/signup/`:
         ]        
         ```
  	* `POST` allow to create new users.
- 	    * Params: UserAccess & PassAcess 
+ 	    * Params: UserAccess(string) & PassAcess(string) 
  	    * Sucess Response
  	    ```javascript
         []
         ```
-Sign Up endpoint `http://127.0.0.1:8000/api/Seguridad/login/`:
+Login endpoint `http://127.0.0.1:8000/api/Seguridad/login/`:
 
-* This route has 1 endpoints:
+* This route has 1 endpoint:
  	* `POST` Do login validating user and password.
- 	    * Params: UserAccess & PassAcess 
+ 	    * Params: UserAccess(string) & PassAcess(string)
  	    * Sucess Response
  	    ```javascript
         {
