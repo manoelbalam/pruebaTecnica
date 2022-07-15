@@ -16,23 +16,24 @@ def user_signup(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        if "ExpirationAccess" not in request.data:
-            request.data["ExpirationAccess"] = date.today() + timedelta(weeks=2)
+        
+        if request.data['ExpirationAccess'] == None:
+            request.data['ExpirationAccess'] = date.today() + timedelta(weeks=2)
 
-        request.data["TokenAccess"] = str(uuid.uuid4())
+        request.data['TokenAccess'] = str(uuid.uuid4())
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response({'estado':'true','descripcionRespuesta':'Usuario '+request.data['UserAccess']+' creado con exito'},status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def user_login(request):
     try:
-        user = User.objects.get(UserAccess=request.data.get("UserAccess"),PassAccess=request.data.get("PassAccess"))
+        user = User.objects.get(UserAccess=request.data.get('UserAccess'),PassAccess=request.data.get('PassAccess'))
     except User.DoesNotExist:
-        return Response({"estado":"false","descripcionRespuesta":"Usuario o contrasena incorrecto"},status=status.HTTP_404_NOT_FOUND)
+        return Response({'estado':'false','descripcionRespuesta':'Usuario o contrasena incorrecto'},status=status.HTTP_404_NOT_FOUND)
 
     if datetime.now() > datetime.combine(user.ExpirationAccess, datetime.min.time()):
         user.ExpirationAccess = date.today() + timedelta(weeks=2)
@@ -42,4 +43,4 @@ def user_login(request):
         serializer.is_valid()
         serializer.save()
 
-    return Response({"estado":"true","descripcionRespuesta":"","token":serializer.data.get("TokenAccess")})
+    return Response({'estado':'true','descripcionRespuesta':'','token':user.TokenAccess})

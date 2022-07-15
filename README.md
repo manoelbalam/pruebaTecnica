@@ -1,4 +1,4 @@
-# Prueba técnica - Desarrollador Python
+# Prueba técnica - Desarrollador Python - Componente 1
 ###  Backend created with Djando & DjangoRestfulFramework
 
 ## Installation
